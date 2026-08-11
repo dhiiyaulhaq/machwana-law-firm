@@ -15,12 +15,12 @@ export const professionals = [
 
 
     summary:
-      "Tri Alvian Machwana is the Managing Partner of Machwana Law Office. He focuses on corporate law, bankruptcy and suspension of payment, litigation, and strategic business advisory. He assists corporations and entrepreneurs in navigating complex legal challenges through practical and commercially driven solutions.",
+      "Tri Alvian Machwana is the Managing Partner of Machwana Law Office. He holds a Master of Laws degree from the University of Indonesia, specializing in business and corporate law. He also holds positions in various professional organizations, where he has served results; He excel in lobbying and negotiation. He is capable of assuming leadership responsibilities. He has demonstrated exceptional leadership in handling various litigation cases—both criminal and civil—and in providing solutions for business players within the Indonesian Chamber of Commerce and Industry (Kadin). In addition to being a licensed Advocate, He hold a license from the Ministry of Law to act as a Receiver and Administrator in bankruptcy proceedings. He also hold positions in various professional organizations, such as PERADI, AAI, and AKPI, as well as business associations like HIPMI and HIPPDA.",
 
 
     education: [
       "Master of Laws (M.H.) - Universitas Indonesia",
-      "Bachelor of Laws (S.H.)",
+      "Bachelor of Laws (S.H.) - Universitas Hasanuddin",
     ],
 
 
@@ -29,6 +29,7 @@ export const professionals = [
       "Bankruptcy & Suspension of Payment",
       "Litigation & Disputes",
       "Business Advisory",
+      "Competition Law",
     ],
 
 

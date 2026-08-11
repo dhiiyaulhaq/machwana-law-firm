@@ -186,9 +186,8 @@ export default function OurFirmPage() {
 
               <p className="body mt-6">
 
-                To become one of Indonesia&apos;s most trusted law firms,
-                recognized for integrity, professionalism, and
-                strategic legal excellence.
+                To be a leading strategic law firm in Indonesia, trusted for delivering 
+                legal excellence, innovative solutions, and lasting value to our clients.
 
               </p>
 
@@ -211,19 +210,27 @@ export default function OurFirmPage() {
               <ul className="body mt-6 list-disc space-y-3 pl-5">
 
                 <li>
-                  Deliver practical legal solutions.
+                  To provide sophisticated and commercially sound legal solutions.
                 </li>
 
                 <li>
-                  Protect every client&apos;s interests.
+                  To combine legal expertise with strategic thinking to achieve the best 
+                  possible outcomes for our clients.
                 </li>
 
                 <li>
-                  Build long-term professional relationships.
+                  To protect our clients interests while creating opportunities for 
+                  sustainable growth.
                 </li>
 
                 <li>
-                  Maintain the highest ethical standards.
+                  To maintain the highest standards of integrity, professionalism, 
+                  confidentiality, and legal ethics.
+                </li>
+
+                <li>
+                  To cultivate long-term partnerships built on trust, excellence, and mutual 
+                  success.
                 </li>
 
               </ul>

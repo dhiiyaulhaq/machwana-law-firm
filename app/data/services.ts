@@ -33,9 +33,9 @@ export const services = [
     icon: Gavel,
   },
   {
-    title: "Intellectual Property",
+    title: "Competition Law",
     description:
-      "Protecting trademarks, copyrights, patents, industrial designs, and other valuable intellectual assets.",
+      "Advising businesses on competition law, antitrust compliance, merger control, and fair competition matters, including regulatory assessments, investigations, and dispute resolution.",
     icon: ShieldCheck,
   },
   {

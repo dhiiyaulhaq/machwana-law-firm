@@ -63,10 +63,10 @@ icon: Handshake,
 
 {
 title:
-"Intellectual Property",
+"Competition Law",
 
 description:
-"Protection and enforcement of intellectual property rights for businesses and individuals.",
+"Advising businesses on competition law, antitrust compliance, merger control, and fair competition matters.",
 
 icon: Lightbulb,
 

@@ -62,7 +62,7 @@ export const metadata: Metadata = {
 
   description:
 
-    "Machwana Law Office provides strategic legal counsel in corporate law, litigation, bankruptcy, mergers and acquisitions, arbitration, intellectual property, and commercial matters in Indonesia.",
+    "Machwana Law Office provides strategic legal counsel in corporate law, litigation, bankruptcy, mergers and acquisitions, arbitration, competition law, and commercial matters in Indonesia.",
 
 
 
@@ -87,7 +87,7 @@ export const metadata: Metadata = {
 
     "Arbitration Lawyer",
 
-    "Intellectual Property Lawyer",
+    "Competition Law",
 
     "Commercial Law",
 
