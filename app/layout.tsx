@@ -8,13 +8,14 @@ import "./globals.css";
 
 import { legalServiceSchema } from "./schema";
 
+import LoadingScreen from "./components/ui/LoadingScreen";
 
 
 const headingFont =
   Cormorant_Garamond({
 
     subsets: [
-      "latin"
+      "latin",
     ],
 
     weight: [
@@ -38,7 +39,7 @@ const bodyFont =
   Inter({
 
     subsets: [
-      "latin"
+      "latin",
     ],
 
     variable:
@@ -53,12 +54,10 @@ const bodyFont =
 
 export const metadata: Metadata = {
 
-
   metadataBase:
     new URL(
       "https://machwanalawoffice.com"
     ),
-
 
 
   title: {
@@ -72,9 +71,9 @@ export const metadata: Metadata = {
   },
 
 
-
   description:
-    "Machwana Law Office provides strategic legal counsel in corporate law, litigation, bankruptcy, mergers and acquisitions, arbitration, and commercial matters in Indonesia.",
+
+    "Machwana Law Office provides strategic legal counsel in corporate law, litigation, bankruptcy, mergers and acquisitions, arbitration, competition law, and commercial matters in Indonesia.",
 
 
 
@@ -88,6 +87,8 @@ export const metadata: Metadata = {
 
     "Corporate Lawyer Indonesia",
 
+    "Business Lawyer",
+
     "Litigation Lawyer",
 
     "Bankruptcy Lawyer",
@@ -96,7 +97,7 @@ export const metadata: Metadata = {
 
     "Arbitration Lawyer",
 
-    "Commercial Lawyer",
+    "Commercial Law",
 
   ],
 
@@ -151,8 +152,10 @@ export const metadata: Metadata = {
     siteName:
       "Machwana Law Office",
 
+
     title:
       "Machwana Law Office | Strategic Legal Solutions",
+
 
     description:
       "Trusted legal counsel providing corporate advisory, dispute resolution, restructuring, arbitration, and business legal solutions.",
@@ -187,8 +190,10 @@ export const metadata: Metadata = {
     card:
       "summary_large_image",
 
+
     title:
       "Machwana Law Office | Strategic Legal Solutions",
+
 
     description:
       "Professional legal counsel for businesses and individuals throughout Indonesia.",
@@ -198,7 +203,7 @@ export const metadata: Metadata = {
 
       [
 
-        "/og-image.jpg"
+        "/og-image.jpg",
 
       ],
 
@@ -231,7 +236,6 @@ export const metadata: Metadata = {
 
   icons: {
 
-
     icon:
 
       [
@@ -249,17 +253,12 @@ export const metadata: Metadata = {
       ],
 
 
-
     shortcut:
-
       "/icon.png",
 
 
-
     apple:
-
       "/apple-touch-icon.png",
-
 
   },
 
@@ -277,10 +276,7 @@ export const metadata: Metadata = {
 
   },
 
-
 };
-
-
 
 
 
@@ -314,6 +310,10 @@ export default function RootLayout({
       <body>
 
 
+        <LoadingScreen />
+
+
+
         <script
 
           type="application/ld+json"
@@ -333,6 +333,7 @@ export default function RootLayout({
           }}
 
         />
+
 
 
         {children}
