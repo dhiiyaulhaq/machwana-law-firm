@@ -24,7 +24,6 @@ const headingFont = Cormorant_Garamond({
 });
 
 
-
 const bodyFont = Inter({
 
   subsets: ["latin"],
@@ -34,8 +33,6 @@ const bodyFont = Inter({
   display: "swap",
 
 });
-
-
 
 
 
@@ -66,7 +63,6 @@ export const metadata: Metadata = {
 
 
 
-
   keywords: [
 
     "Machwana Law Office",
@@ -87,12 +83,9 @@ export const metadata: Metadata = {
 
     "Arbitration Lawyer",
 
-    "Competition Law",
-
     "Commercial Law",
 
   ],
-
 
 
 
@@ -113,33 +106,25 @@ export const metadata: Metadata = {
 
 
   creator:
-
     "Machwana Law Office",
 
 
 
   publisher:
-
     "Machwana Law Office",
-
-
 
 
 
   alternates: {
 
     canonical:
-
       "https://machwanalawoffice.com",
 
   },
 
 
 
-
-
   openGraph: {
-
 
     type:
       "website",
@@ -157,175 +142,116 @@ export const metadata: Metadata = {
       "Machwana Law Office",
 
 
-
     title:
-
       "Machwana Law Office | Strategic Legal Solutions",
 
 
-
     description:
-
       "Trusted legal counsel providing corporate advisory, dispute resolution, restructuring, arbitration, and business legal solutions.",
 
 
+    images: [
 
-    images:
+      {
 
-      [
+        url:
+          "/og-image.jpg",
 
-        {
+        width:
+          1200,
 
-          url:
-            "/og-image.jpg",
+        height:
+          630,
 
-          width:
-            1200,
+        alt:
+          "Machwana Law Office",
 
-          height:
-            630,
+      },
 
-          alt:
-            "Machwana Law Office",
-
-        },
-
-      ],
-
+    ],
 
   },
-
-
-
 
 
 
   twitter: {
 
-
     card:
-
       "summary_large_image",
 
 
-
     title:
-
       "Machwana Law Office | Strategic Legal Solutions",
 
 
-
     description:
-
       "Professional legal counsel for businesses and individuals throughout Indonesia.",
-
 
 
     images:
 
       [
 
-        "/og-image.jpg",
+        "/og-image.jpg"
 
       ],
 
-
   },
-
-
-
 
 
 
   robots: {
 
-
     index:
-
       true,
-
 
     follow:
-
       true,
 
 
+    googleBot: {
 
-    googleBot:
+      index:
+        true,
 
-      {
+      follow:
+        true,
 
-        index:
-
-          true,
-
-
-        follow:
-
-          true,
-
-      },
+    },
 
   },
-
-
-
 
 
 
   icons: {
 
-
     icon:
-
-      "/favicon.ico",
-
-
+      "/icon.png",
 
     shortcut:
-
-      "/favicon.ico",
-
-
+      "/icon.png",
 
     apple:
-
       "/apple-touch-icon.png",
-
 
   },
 
 
 
-
-
-
-
   category:
-
     "Legal Services",
 
 
 
+  formatDetection: {
 
+    telephone:
+      false,
 
-
-  formatDetection:
-
-    {
-
-      telephone:
-
-        false,
-
-    },
+  },
 
 
 };
-
-
-
-
 
 
 
@@ -335,14 +261,13 @@ export default function RootLayout({
 
 }: Readonly<{
 
-  children: React.ReactNode;
+  children:
+    React.ReactNode;
 
 }>) {
 
 
-
   return (
-
 
     <html
 
@@ -357,9 +282,7 @@ export default function RootLayout({
     >
 
 
-
       <body>
-
 
 
         <script
@@ -383,19 +306,14 @@ export default function RootLayout({
         />
 
 
-
         {children}
-
 
 
       </body>
 
 
-
     </html>
 
-
   );
-
 
 }

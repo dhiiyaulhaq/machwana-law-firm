@@ -12,7 +12,7 @@ export const legalServiceSchema = {
     "https://machwanalawoffice.com/og-image.jpg",
 
   description:
-    "Machwana Law Office provides strategic legal services in corporate law, litigation, bankruptcy, mergers & acquisitions, arbitration, and intellectual property.",
+    "Machwana Law Office provides strategic legal services in corporate law, litigation, bankruptcy, mergers & acquisitions, arbitration, and competition law.",
 
 
   address: {
@@ -94,7 +94,7 @@ export const legalServiceSchema = {
 
     "Arbitration & Alternative Dispute Resolution",
 
-    "Intellectual Property",
+    "Competition Law",
 
     "Corporate & Commercial",
   ],
