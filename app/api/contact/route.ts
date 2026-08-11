@@ -6,7 +6,6 @@ export async function POST(request: Request) {
 
   try {
 
-
     const body = await request.json();
 
 
@@ -17,8 +16,6 @@ export async function POST(request: Request) {
       subject,
       message,
     } = body;
-
-
 
 
 
@@ -46,7 +43,7 @@ export async function POST(request: Request) {
 
     /*
       EMAIL 1
-      Send inquiry to Machwana Law Office
+      Notification to Machwana Law Office
     */
 
 
@@ -170,9 +167,11 @@ export async function POST(request: Request) {
 
 
 
+
     /*
       EMAIL 2
-      Automatic reply to client
+      Automatic confirmation to client
+      Using no-reply email
     */
 
 
@@ -185,7 +184,7 @@ export async function POST(request: Request) {
           "Machwana Law Office",
 
         address:
-          process.env.SMTP_FROM!,
+          "no-reply@machwanalawoffice.com",
 
       },
 
@@ -310,11 +309,6 @@ export async function POST(request: Request) {
         "Email sent successfully",
 
     });
-
-
-
-
-
 
 
 
