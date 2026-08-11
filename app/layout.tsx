@@ -1,47 +1,63 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Inter } from "next/font/google";
+import {
+  Cormorant_Garamond,
+  Inter,
+} from "next/font/google";
 
 import "./globals.css";
 
 import { legalServiceSchema } from "./schema";
 
 
-const headingFont = Cormorant_Garamond({
 
-  subsets: ["latin"],
+const headingFont =
+  Cormorant_Garamond({
 
-  weight: [
-    "400",
-    "500",
-    "600",
-    "700",
-  ],
+    subsets: [
+      "latin"
+    ],
 
-  variable: "--font-heading",
+    weight: [
+      "400",
+      "500",
+      "600",
+      "700",
+    ],
 
-  display: "swap",
+    variable:
+      "--font-heading",
 
-});
+    display:
+      "swap",
+
+  });
 
 
-const bodyFont = Inter({
 
-  subsets: ["latin"],
+const bodyFont =
+  Inter({
 
-  variable: "--font-body",
+    subsets: [
+      "latin"
+    ],
 
-  display: "swap",
+    variable:
+      "--font-body",
 
-});
+    display:
+      "swap",
+
+  });
 
 
 
 export const metadata: Metadata = {
 
 
-  metadataBase: new URL(
-    "https://machwanalawoffice.com"
-  ),
+  metadataBase:
+    new URL(
+      "https://machwanalawoffice.com"
+    ),
 
 
 
@@ -58,8 +74,7 @@ export const metadata: Metadata = {
 
 
   description:
-
-    "Machwana Law Office provides strategic legal counsel in corporate law, litigation, bankruptcy, mergers and acquisitions, arbitration, competition law, and commercial matters in Indonesia.",
+    "Machwana Law Office provides strategic legal counsel in corporate law, litigation, bankruptcy, mergers and acquisitions, arbitration, and commercial matters in Indonesia.",
 
 
 
@@ -73,8 +88,6 @@ export const metadata: Metadata = {
 
     "Corporate Lawyer Indonesia",
 
-    "Business Lawyer",
-
     "Litigation Lawyer",
 
     "Bankruptcy Lawyer",
@@ -83,7 +96,7 @@ export const metadata: Metadata = {
 
     "Arbitration Lawyer",
 
-    "Commercial Law",
+    "Commercial Lawyer",
 
   ],
 
@@ -129,22 +142,17 @@ export const metadata: Metadata = {
     type:
       "website",
 
-
     locale:
       "id_ID",
-
 
     url:
       "https://machwanalawoffice.com",
 
-
     siteName:
       "Machwana Law Office",
 
-
     title:
       "Machwana Law Office | Strategic Legal Solutions",
-
 
     description:
       "Trusted legal counsel providing corporate advisory, dispute resolution, restructuring, arbitration, and business legal solutions.",
@@ -179,10 +187,8 @@ export const metadata: Metadata = {
     card:
       "summary_large_image",
 
-
     title:
       "Machwana Law Office | Strategic Legal Solutions",
-
 
     description:
       "Professional legal counsel for businesses and individuals throughout Indonesia.",
@@ -225,14 +231,35 @@ export const metadata: Metadata = {
 
   icons: {
 
+
     icon:
-      "/icon.png",
+
+      [
+
+        {
+
+          url:
+            "/icon.png",
+
+          type:
+            "image/png",
+
+        },
+
+      ],
+
+
 
     shortcut:
+
       "/icon.png",
 
+
+
     apple:
+
       "/apple-touch-icon.png",
+
 
   },
 
@@ -252,6 +279,8 @@ export const metadata: Metadata = {
 
 
 };
+
+
 
 
 
