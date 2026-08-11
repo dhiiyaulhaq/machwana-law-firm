@@ -2,11 +2,27 @@ import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
 
+
+function sanitize(value: string) {
+
+  return value
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .trim();
+
+}
+
+
+
+
 export async function POST(request: Request) {
+
 
   try {
 
+
     const body = await request.json();
+
 
 
     const {
@@ -15,23 +31,221 @@ export async function POST(request: Request) {
       phone,
       subject,
       message,
+      website,
     } = body;
+
+
+
+
+
+    /*
+      Honeypot Protection
+      Reject bot submission
+    */
+
+    if (website) {
+
+
+      return NextResponse.json(
+
+        {
+
+          success: false,
+
+          message:
+            "Spam detected",
+
+        },
+
+
+        {
+
+          status: 400,
+
+        }
+
+      );
+
+
+    }
+
+
+
+
+
+
+
+    /*
+      Basic Validation
+    */
+
+
+    if (
+
+      !name ||
+
+      !email ||
+
+      !subject ||
+
+      !message
+
+    ) {
+
+
+      return NextResponse.json(
+
+        {
+
+          success: false,
+
+          message:
+            "Please complete all required fields",
+
+        },
+
+
+        {
+
+          status: 400,
+
+        }
+
+      );
+
+
+    }
+
+
+
+
+
+
+
+
+    if (
+
+      !email.includes("@")
+
+    ) {
+
+
+      return NextResponse.json(
+
+        {
+
+          success: false,
+
+          message:
+            "Invalid email address",
+
+        },
+
+
+        {
+
+          status: 400,
+
+        }
+
+      );
+
+
+    }
+
+
+
+
+
+
+
+
+    if (
+
+      message.length > 5000
+
+    ) {
+
+
+      return NextResponse.json(
+
+        {
+
+          success: false,
+
+          message:
+            "Message is too long",
+
+        },
+
+
+        {
+
+          status: 400,
+
+        }
+
+      );
+
+
+    }
+
+
+
+
+
+
+
+
+    const cleanName =
+      sanitize(name);
+
+
+    const cleanEmail =
+      sanitize(email);
+
+
+    const cleanPhone =
+      sanitize(phone);
+
+
+    const cleanSubject =
+      sanitize(subject);
+
+
+    const cleanMessage =
+      sanitize(message);
+
+
+
+
+
+
 
 
 
     const transporter = nodemailer.createTransport({
 
-      host: process.env.SMTP_HOST,
+      host:
+        process.env.SMTP_HOST,
 
-      port: Number(process.env.SMTP_PORT),
 
-      secure: true,
+      port:
+        Number(process.env.SMTP_PORT),
+
+
+      secure:
+        true,
+
 
       auth: {
 
-        user: process.env.SMTP_USER,
+        user:
+          process.env.SMTP_USER,
 
-        pass: process.env.SMTP_PASSWORD,
+
+        pass:
+          process.env.SMTP_PASSWORD,
 
       },
 
@@ -41,18 +255,23 @@ export async function POST(request: Request) {
 
 
 
+
+
+
     /*
       EMAIL 1
-      Notification to Machwana Law Office
+      Send inquiry to Machwana Law Office
     */
 
 
     await transporter.sendMail({
 
+
       from: {
 
         name:
           "Machwana Law Office",
+
 
         address:
           process.env.SMTP_FROM!,
@@ -60,16 +279,20 @@ export async function POST(request: Request) {
       },
 
 
+
       to:
         process.env.SMTP_TO,
 
 
+
       replyTo:
-        email,
+        cleanEmail,
+
 
 
       subject:
-        `New Consultation Request | ${subject}`,
+        `New Consultation Request | ${cleanSubject}`,
+
 
 
       html: `
@@ -94,38 +317,27 @@ export async function POST(request: Request) {
         <hr />
 
 
-        <h4>
-          Client Information
-        </h4>
-
-
         <p>
           <strong>Name:</strong>
-          ${name}
+          ${cleanName}
         </p>
 
 
         <p>
           <strong>Email:</strong>
-          ${email}
+          ${cleanEmail}
         </p>
 
 
         <p>
           <strong>WhatsApp:</strong>
-          ${phone}
+          ${cleanPhone}
         </p>
-
-
-
-        <h4>
-          Consultation Details
-        </h4>
 
 
         <p>
           <strong>Subject:</strong>
-          ${subject}
+          ${cleanSubject}
         </p>
 
 
@@ -135,9 +347,8 @@ export async function POST(request: Request) {
 
 
         <p>
-          ${message}
+          ${cleanMessage}
         </p>
-
 
 
         <hr />
@@ -168,10 +379,10 @@ export async function POST(request: Request) {
 
 
 
+
     /*
       EMAIL 2
-      Automatic confirmation to client
-      Using no-reply email
+      Automatic reply
     */
 
 
@@ -183,14 +394,16 @@ export async function POST(request: Request) {
         name:
           "Machwana Law Office",
 
+
         address:
           "no-reply@machwanalawoffice.com",
 
       },
 
 
+
       to:
-        email,
+        cleanEmail,
 
 
 
@@ -199,8 +412,8 @@ export async function POST(request: Request) {
 
 
 
-      html: `
 
+      html: `
 
       <div style="
         font-family: Arial, sans-serif;
@@ -209,24 +422,19 @@ export async function POST(request: Request) {
       ">
 
 
-
         <h2>
           Machwana Law Office
         </h2>
 
 
-
-
         <p>
-          Dear ${name},
+          Dear ${cleanName},
         </p>
-
 
 
         <p>
           Thank you for contacting Machwana Law Office.
         </p>
-
 
 
         <p>
@@ -235,23 +443,18 @@ export async function POST(request: Request) {
         </p>
 
 
-
         <p>
           One of our legal professionals will contact you
-          shortly for further assistance.
+          shortly.
         </p>
-
-
 
 
         <br />
 
 
-
         <p>
           Best regards,
         </p>
-
 
 
         <p>
@@ -267,10 +470,7 @@ export async function POST(request: Request) {
         </p>
 
 
-
-
         <hr />
-
 
 
         <p style="
@@ -278,15 +478,12 @@ export async function POST(request: Request) {
           color:#777;
         ">
 
-          This is an automated confirmation email
-          from Machwana Law Office.
+          This is an automated confirmation email.
 
         </p>
 
 
-
       </div>
-
 
       `,
 
@@ -305,6 +502,7 @@ export async function POST(request: Request) {
       success:
         true,
 
+
       message:
         "Email sent successfully",
 
@@ -312,7 +510,12 @@ export async function POST(request: Request) {
 
 
 
+
+
+
+
   } catch(error) {
+
 
 
     console.error(error);
@@ -321,10 +524,12 @@ export async function POST(request: Request) {
 
     return NextResponse.json(
 
+
       {
 
         success:
           false,
+
 
         message:
           "Failed to send email",
@@ -339,9 +544,11 @@ export async function POST(request: Request) {
 
       }
 
+
     );
 
 
   }
+
 
 }

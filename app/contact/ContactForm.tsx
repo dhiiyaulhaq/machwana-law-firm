@@ -3,20 +3,28 @@
 import { useState } from "react";
 import { ArrowRight } from "lucide-react";
 
+
 export default function ContactForm() {
 
+
   const [formData, setFormData] = useState({
+
     name: "",
     email: "",
     phone: "",
     subject: "",
     message: "",
+    website: "",
+
   });
+
 
 
   const [status, setStatus] = useState("");
 
   const [loading, setLoading] = useState(false);
+
+
 
 
 
@@ -26,6 +34,7 @@ export default function ContactForm() {
     >
   ) {
 
+
     setFormData({
 
       ...formData,
@@ -34,6 +43,7 @@ export default function ContactForm() {
         e.target.value,
 
     });
+
 
   }
 
@@ -45,6 +55,7 @@ export default function ContactForm() {
     e: React.FormEvent
   ) {
 
+
     e.preventDefault();
 
 
@@ -54,11 +65,14 @@ export default function ContactForm() {
 
 
 
+
     try {
 
 
       const response = await fetch(
+
         "/api/contact",
+
         {
 
           method: "POST",
@@ -72,10 +86,15 @@ export default function ContactForm() {
 
 
           body:
+
             JSON.stringify(formData),
 
+
         }
+
       );
+
+
 
 
 
@@ -85,25 +104,26 @@ export default function ContactForm() {
 
 
 
+
       if (data.success) {
 
 
         setStatus(
+
           "Thank you. Your message has been sent successfully."
+
         );
+
 
 
         setFormData({
 
           name: "",
-
           email: "",
-
           phone: "",
-
           subject: "",
-
           message: "",
+          website: "",
 
         });
 
@@ -113,7 +133,9 @@ export default function ContactForm() {
 
 
         setStatus(
+
           "Failed to send message. Please try again."
+
         );
 
 
@@ -121,15 +143,20 @@ export default function ContactForm() {
 
 
 
-    } catch (error) {
+
+    } catch(error) {
 
 
       console.error(error);
 
 
+
       setStatus(
+
         "Something went wrong. Please try again."
+
       );
+
 
 
     }
@@ -145,99 +172,261 @@ export default function ContactForm() {
 
 
 
+
   return (
 
+
     <form
+
       onSubmit={handleSubmit}
+
       className="mt-10 space-y-6"
+
     >
 
 
 
+
+      {/* Honeypot field */}
+
       <input
+
+        type="text"
+
+        name="website"
+
+        value={formData.website}
+
+        onChange={handleChange}
+
+        autoComplete="off"
+
+        tabIndex={-1}
+
+        className="
+          hidden
+        "
+
+      />
+
+
+
+
+
+      <input
+
         name="name"
+
         type="text"
+
         placeholder="Full Name"
+
         value={formData.name}
+
         onChange={handleChange}
+
         required
-        className="w-full rounded-2xl border border-slate-200 px-6 py-4 text-slate-900 outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-100"
+
+        className="
+          w-full
+          rounded-2xl
+          border
+          border-slate-200
+          px-6
+          py-4
+          text-slate-900
+          outline-none
+          transition
+          focus:border-orange-500
+          focus:ring-2
+          focus:ring-orange-100
+        "
+
       />
 
 
 
 
 
+
       <input
+
         name="email"
+
         type="email"
+
         placeholder="Email Address"
+
         value={formData.email}
+
         onChange={handleChange}
+
         required
-        className="w-full rounded-2xl border border-slate-200 px-6 py-4 text-slate-900 outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-100"
+
+        className="
+          w-full
+          rounded-2xl
+          border
+          border-slate-200
+          px-6
+          py-4
+          text-slate-900
+          outline-none
+          transition
+          focus:border-orange-500
+          focus:ring-2
+          focus:ring-orange-100
+        "
+
       />
 
 
 
 
 
+
       <input
+
         name="phone"
+
         type="tel"
+
         placeholder="WhatsApp Number"
+
         value={formData.phone}
+
         onChange={handleChange}
+
         required
-        className="w-full rounded-2xl border border-slate-200 px-6 py-4 text-slate-900 outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-100"
+
+        className="
+          w-full
+          rounded-2xl
+          border
+          border-slate-200
+          px-6
+          py-4
+          text-slate-900
+          outline-none
+          transition
+          focus:border-orange-500
+          focus:ring-2
+          focus:ring-orange-100
+        "
+
       />
+
 
 
 
 
 
       <input
+
         name="subject"
+
         type="text"
+
         placeholder="Subject"
+
         value={formData.subject}
+
         onChange={handleChange}
+
         required
-        className="w-full rounded-2xl border border-slate-200 px-6 py-4 text-slate-900 outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-100"
+
+        className="
+          w-full
+          rounded-2xl
+          border
+          border-slate-200
+          px-6
+          py-4
+          text-slate-900
+          outline-none
+          transition
+          focus:border-orange-500
+          focus:ring-2
+          focus:ring-orange-100
+        "
+
       />
+
+
 
 
 
 
 
       <textarea
+
         name="message"
+
         rows={6}
+
         placeholder="Your Message"
+
         value={formData.message}
+
         onChange={handleChange}
+
         required
-        className="w-full rounded-2xl border border-slate-200 px-6 py-4 text-slate-900 outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-100"
+
+        className="
+          w-full
+          rounded-2xl
+          border
+          border-slate-200
+          px-6
+          py-4
+          text-slate-900
+          outline-none
+          transition
+          focus:border-orange-500
+          focus:ring-2
+          focus:ring-orange-100
+        "
+
       />
 
 
 
 
 
+
       <button
+
         type="submit"
+
         disabled={loading}
-        className="btn-primary flex items-center gap-3 disabled:opacity-50"
+
+        className="
+          btn-primary
+          flex
+          items-center
+          gap-3
+          disabled:opacity-50
+        "
+
       >
 
         {
+
           loading
-          ? "Sending..."
-          : "Send Message"
+
+          ?
+
+          "Sending..."
+
+          :
+
+          "Send Message"
+
         }
 
 
-        <ArrowRight size={18} />
+        <ArrowRight size={18}/>
+
 
       </button>
 
@@ -245,10 +434,19 @@ export default function ContactForm() {
 
 
 
-      {
-        status && (
 
-          <p className="mt-4 text-sm text-orange-500">
+
+      {
+
+        status &&
+
+        (
+
+          <p className="
+            mt-4
+            text-sm
+            text-orange-500
+          ">
 
             {status}
 
@@ -264,6 +462,8 @@ export default function ContactForm() {
 
     </form>
 
+
   );
+
 
 }
