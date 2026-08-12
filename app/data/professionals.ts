@@ -8,7 +8,7 @@ export const professionals = [
       "Managing Partner",
 
     email:
-      "trialvian@machwanalawoffice.com",
+      "alvian@machwanalawoffice.com",
 
     image:
       "/images/professionals/tri-alvian-machwana.jpg",
