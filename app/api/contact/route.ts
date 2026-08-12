@@ -2,26 +2,15 @@ import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
 
-
-function sanitize(value: string) {
-
-  return value
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .trim();
-
-}
-
-
-
-
-export async function POST(request: Request) {
-
+export async function POST(
+  request: Request
+) {
 
   try {
 
 
-    const body = await request.json();
+    const body =
+      await request.json();
 
 
 
@@ -31,7 +20,6 @@ export async function POST(request: Request) {
       phone,
       subject,
       message,
-      website,
     } = body;
 
 
@@ -39,35 +27,40 @@ export async function POST(request: Request) {
 
 
     /*
-      Honeypot Protection
-      Reject bot submission
+      SMTP TRANSPORTER
+      OFFICE EMAIL
+
+      info@machwanalawoffice.com
     */
 
-    if (website) {
+
+    const officeTransporter =
+      nodemailer.createTransport({
+
+        host:
+          process.env.SMTP_HOST,
+
+        port:
+          Number(
+            process.env.SMTP_PORT
+          ),
+
+        secure:
+          true,
 
 
-      return NextResponse.json(
+        auth: {
 
-        {
+          user:
+            process.env.SMTP_USER,
 
-          success: false,
 
-          message:
-            "Spam detected",
+          pass:
+            process.env.SMTP_PASSWORD,
 
         },
 
-
-        {
-
-          status: 400,
-
-        }
-
-      );
-
-
-    }
+      });
 
 
 
@@ -76,180 +69,43 @@ export async function POST(request: Request) {
 
 
     /*
-      Basic Validation
+      SMTP TRANSPORTER
+      AUTO REPLY EMAIL
+
+      no-reply@machwanalawoffice.com
     */
 
 
-    if (
+    const replyTransporter =
+      nodemailer.createTransport({
 
-      !name ||
-
-      !email ||
-
-      !subject ||
-
-      !message
-
-    ) {
+        host:
+          process.env.SMTP_HOST,
 
 
-      return NextResponse.json(
-
-        {
-
-          success: false,
-
-          message:
-            "Please complete all required fields",
-
-        },
+        port:
+          Number(
+            process.env.SMTP_PORT
+          ),
 
 
-        {
-
-          status: 400,
-
-        }
-
-      );
+        secure:
+          true,
 
 
-    }
+        auth: {
+
+          user:
+            process.env.SMTP_REPLY_USER,
 
 
-
-
-
-
-
-
-    if (
-
-      !email.includes("@")
-
-    ) {
-
-
-      return NextResponse.json(
-
-        {
-
-          success: false,
-
-          message:
-            "Invalid email address",
+          pass:
+            process.env.SMTP_REPLY_PASSWORD,
 
         },
 
+      });
 
-        {
-
-          status: 400,
-
-        }
-
-      );
-
-
-    }
-
-
-
-
-
-
-
-
-    if (
-
-      message.length > 5000
-
-    ) {
-
-
-      return NextResponse.json(
-
-        {
-
-          success: false,
-
-          message:
-            "Message is too long",
-
-        },
-
-
-        {
-
-          status: 400,
-
-        }
-
-      );
-
-
-    }
-
-
-
-
-
-
-
-
-    const cleanName =
-      sanitize(name);
-
-
-    const cleanEmail =
-      sanitize(email);
-
-
-    const cleanPhone =
-      sanitize(phone);
-
-
-    const cleanSubject =
-      sanitize(subject);
-
-
-    const cleanMessage =
-      sanitize(message);
-
-
-
-
-
-
-
-
-
-    const transporter = nodemailer.createTransport({
-
-      host:
-        process.env.SMTP_HOST,
-
-
-      port:
-        Number(process.env.SMTP_PORT),
-
-
-      secure:
-        true,
-
-
-      auth: {
-
-        user:
-          process.env.SMTP_USER,
-
-
-        pass:
-          process.env.SMTP_PASSWORD,
-
-      },
-
-    });
 
 
 
@@ -260,18 +116,21 @@ export async function POST(request: Request) {
 
     /*
       EMAIL 1
-      Send inquiry to Machwana Law Office
+
+      SEND CLIENT INQUIRY
+      TO MACHWANA LAW OFFICE
+
     */
 
 
-    await transporter.sendMail({
+    await officeTransporter.sendMail({
+
 
 
       from: {
 
         name:
           "Machwana Law Office",
-
 
         address:
           process.env.SMTP_FROM!,
@@ -286,12 +145,15 @@ export async function POST(request: Request) {
 
 
       replyTo:
-        cleanEmail,
+        email,
 
 
 
       subject:
-        `New Consultation Request | ${cleanSubject}`,
+
+        `New Consultation Request | ${subject}`,
+
+
 
 
 
@@ -314,31 +176,46 @@ export async function POST(request: Request) {
         </h3>
 
 
-        <hr />
+        <hr/>
+
+
+        <h4>
+          Client Information
+        </h4>
 
 
         <p>
           <strong>Name:</strong>
-          ${cleanName}
+          ${name}
         </p>
+
 
 
         <p>
           <strong>Email:</strong>
-          ${cleanEmail}
+          ${email}
         </p>
+
 
 
         <p>
           <strong>WhatsApp:</strong>
-          ${cleanPhone}
+          ${phone}
         </p>
+
+
+
+        <h4>
+          Consultation Details
+        </h4>
+
 
 
         <p>
           <strong>Subject:</strong>
-          ${cleanSubject}
+          ${subject}
         </p>
+
 
 
         <p>
@@ -346,12 +223,14 @@ export async function POST(request: Request) {
         </p>
 
 
+
         <p>
-          ${cleanMessage}
+          ${message}
         </p>
 
 
-        <hr />
+
+        <hr/>
 
 
         <p style="
@@ -382,38 +261,49 @@ export async function POST(request: Request) {
 
     /*
       EMAIL 2
-      Automatic reply
+
+      AUTOMATIC RESPONSE
+      FROM NO-REPLY EMAIL
+
     */
 
 
-    await transporter.sendMail({
+    await replyTransporter.sendMail({
+
 
 
       from: {
+
 
         name:
           "Machwana Law Office",
 
 
+
         address:
-          "no-reply@machwanalawoffice.com",
+          process.env.SMTP_REPLY_USER!,
+
 
       },
 
 
 
       to:
-        cleanEmail,
+        email,
 
 
 
       subject:
+
         "Thank You for Contacting Machwana Law Office",
 
 
 
 
+
+
       html: `
+
 
       <div style="
         font-family: Arial, sans-serif;
@@ -422,14 +312,17 @@ export async function POST(request: Request) {
       ">
 
 
+
         <h2>
           Machwana Law Office
         </h2>
 
 
+
         <p>
-          Dear ${cleanName},
+          Dear ${name},
         </p>
+
 
 
         <p>
@@ -437,24 +330,31 @@ export async function POST(request: Request) {
         </p>
 
 
+
         <p>
-          We have received your legal consultation request
-          and our team will review your inquiry.
+          We have received your legal consultation request.
+          Our legal team will review your inquiry and contact
+          you shortly.
         </p>
 
 
+
+
         <p>
-          One of our legal professionals will contact you
-          shortly.
+          Please note that this email is an automated
+          confirmation message.
         </p>
 
 
-        <br />
+
+
+        <br/>
 
 
         <p>
           Best regards,
         </p>
+
 
 
         <p>
@@ -463,14 +363,18 @@ export async function POST(request: Request) {
             Machwana Law Office
           </strong>
 
-          <br />
+          <br/>
 
           Advocates & Legal Consultants
 
         </p>
 
 
-        <hr />
+
+
+        <hr/>
+
+
 
 
         <p style="
@@ -478,18 +382,20 @@ export async function POST(request: Request) {
           color:#777;
         ">
 
-          This is an automated confirmation email.
+          This is an automated confirmation email
+          from Machwana Law Office.
 
         </p>
 
 
+
       </div>
+
 
       `,
 
 
     });
-
 
 
 
@@ -517,13 +423,14 @@ export async function POST(request: Request) {
   } catch(error) {
 
 
-
-    console.error(error);
+    console.error(
+      "EMAIL ERROR:",
+      error
+    );
 
 
 
     return NextResponse.json(
-
 
       {
 
@@ -544,11 +451,9 @@ export async function POST(request: Request) {
 
       }
 
-
     );
 
 
   }
-
 
 }
