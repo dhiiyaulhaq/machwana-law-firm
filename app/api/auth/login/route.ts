@@ -1,241 +1,156 @@
-import { NextResponse } from "next/server";
-
+import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
-
 import { connectDB } from "@/app/lib/mongodb";
-
 import User from "@/app/models/User";
-
 import { createSession } from "@/app/lib/auth";
 
 
-
-
 export async function POST(
-  request: Request
-) {
+    request: NextRequest
+){
+
+    try {
+
+        await connectDB();
 
 
-  try {
+        const body =
+            await request.json();
 
 
-    await connectDB();
-
-
-
-    const body =
-      await request.json();
-
-
-
-    const {
-      email,
-      password,
-    } = body;
+        const {
+            email,
+            password
+        } = body;
 
 
 
+        if(
+            !email ||
+            !password
+        ){
 
-    if (
-      !email ||
-      !password
-    ) {
+            return NextResponse.json(
+                {
+                    message:
+                    "Email and password required"
+                },
+                {
+                    status:400
+                }
+            );
 
-
-      return NextResponse.json(
-        {
-          message:
-            "Email and password required",
-        },
-        {
-          status:
-            400,
         }
-      );
-
-
-    }
 
 
 
-
-
-    const user =
-      await User.findOne({
-        email,
-      });
-
+        const user =
+            await User.findOne({
+                email
+            });
 
 
 
+        if(!user){
 
-    if (!user) {
+            return NextResponse.json(
+                {
+                    message:
+                    "Invalid credentials"
+                },
+                {
+                    status:401
+                }
+            );
 
-
-      return NextResponse.json(
-        {
-          message:
-            "Invalid credentials",
-        },
-        {
-          status:
-            401,
         }
-      );
-
-
-    }
 
 
 
-
-
-    const passwordMatch =
-      await bcrypt.compare(
-        password,
-        user.password
-      );
-
+        const validPassword =
+            await bcrypt.compare(
+                password,
+                user.password
+            );
 
 
 
+        if(!validPassword){
 
-    if (!passwordMatch) {
+            return NextResponse.json(
+                {
+                    message:
+                    "Invalid credentials"
+                },
+                {
+                    status:401
+                }
+            );
 
-
-      return NextResponse.json(
-        {
-          message:
-            "Invalid credentials",
-        },
-        {
-          status:
-            401,
         }
-      );
-
-
-    }
 
 
 
+        if(!user.approved){
 
+            return NextResponse.json(
+                {
+                    message:
+                    "Account not approved"
+                },
+                {
+                    status:403
+                }
+            );
 
-
-    if (!user.approved) {
-
-
-      return NextResponse.json(
-        {
-          message:
-            "Account not approved",
-        },
-        {
-          status:
-            403,
         }
-      );
-
-
-    }
 
 
 
+        // CREATE SESSION COOKIE
+        await createSession({
+
+            id:
+            user._id.toString(),
+
+            email:
+            user.email,
+
+            role:
+            user.role
+
+        });
 
 
 
-    const token =
-      await createSession({
+        return NextResponse.json({
 
-        id:
-          user._id.toString(),
-
-        email:
-          user.email,
-
-        role:
-          user.role,
-
-      });
-
-
-
-
-
-
-
-    const response =
-      NextResponse.json(
-        {
-          message:
+            message:
             "Login success",
 
-          role:
-            user.role,
+            role:
+            user.role
 
-        }
-      );
-
+        });
 
 
 
+    }
+    catch(error){
+
+        console.error(error);
 
 
-    response.cookies.set(
-      "machwana_session",
-      token,
-      {
+        return NextResponse.json(
+            {
+                message:
+                "Server error"
+            },
+            {
+                status:500
+            }
+        );
 
-        httpOnly:
-          true,
-
-        secure:
-          process.env.NODE_ENV ===
-          "production",
-
-        sameSite:
-          "lax",
-
-        maxAge:
-          60 * 60 * 24 * 7,
-
-        path:
-          "/",
-
-      }
-    );
-
-
-
-
-
-    return response;
-
-
-
-
-
-  } catch(error) {
-
-
-    console.error(
-      error
-    );
-
-
-    return NextResponse.json(
-      {
-        message:
-          "Server error",
-      },
-      {
-        status:
-          500,
-      }
-    );
-
-
-  }
-
+    }
 
 }
