@@ -8,7 +8,6 @@ import {
   MapPin,
 } from "lucide-react";
 
-
 import Container from "../ui/Container";
 
 import { navigation } from "../../data/navigation";
@@ -25,6 +24,11 @@ const whatsappLink =
   `https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(
     whatsappMessage
   )}`;
+
+
+
+const instagramLink =
+  "https://www.instagram.com/machwana.lawoffice/";
 
 
 
@@ -125,10 +129,12 @@ export default function Footer() {
 
 
 
-            <div className="space-y-4">
+            <div className="
+              space-y-4
+            ">
 
 
-              {navigation.map((item)=>(
+              {navigation.map((item) => (
 
 
                 <Link
@@ -186,10 +192,12 @@ export default function Footer() {
 
 
 
-            <div className="space-y-4">
+            <div className="
+              space-y-4
+            ">
 
 
-              {services.map((service)=>(
+              {services.map((service) => (
 
 
                 <Link
@@ -257,6 +265,9 @@ export default function Footer() {
 
 
 
+              {/* ADDRESS */}
+
+
               <div className="
                 flex
                 gap-4
@@ -271,7 +282,9 @@ export default function Footer() {
 
 
 
-                <p className="leading-7">
+                <p className="
+                  leading-7
+                ">
 
 
                   {contact.address.street}
@@ -294,6 +307,9 @@ export default function Footer() {
 
 
 
+
+
+              {/* PHONE */}
 
 
               <div className="
@@ -324,6 +340,9 @@ export default function Footer() {
 
 
 
+
+
+              {/* EMAIL */}
 
 
               <div className="
@@ -357,6 +376,9 @@ export default function Footer() {
 
 
 
+              {/* WHATSAPP */}
+
+
               <a
 
                 href={whatsappLink}
@@ -379,11 +401,97 @@ export default function Footer() {
                 <MessageCircle className="
                   h-6
                   w-6
+                  flex-shrink-0
                 "/>
 
 
-                WhatsApp Consultation
+                <span>
 
+                  WhatsApp Consultation
+
+                </span>
+
+
+              </a>
+
+
+
+
+
+
+
+
+
+              {/* INSTAGRAM */}
+
+
+              <a
+
+                href={instagramLink}
+
+                target="_blank"
+
+                rel="noopener noreferrer"
+
+                aria-label="
+                  Instagram Machwana Law Office
+                "
+
+                className="
+                  flex
+                  items-center
+                  gap-4
+                  transition
+                  hover:text-orange-400
+                "
+
+              >
+
+
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  className="
+                    h-6
+                    w-6
+                    flex-shrink-0
+                  "
+                  aria-hidden="true"
+                >
+
+                  <rect
+                    x="3"
+                    y="3"
+                    width="18"
+                    height="18"
+                    rx="5"
+                  />
+
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="4.2"
+                  />
+
+                  <circle
+                    cx="17.3"
+                    cy="6.8"
+                    r="1"
+                    fill="currentColor"
+                    stroke="none"
+                  />
+
+                </svg>
+
+
+                <span>
+
+                  Instagram Machwana Law Office
+
+                </span>
 
 
               </a>

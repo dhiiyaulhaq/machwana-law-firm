@@ -7,9 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "seed": "tsx scripts/create-admin.ts"
+    "seed": "tsx scripts/create-admin.ts",
+    "seed:alvian": "tsx scripts/create-alvian.ts"
   },
   "dependencies": {
+    "@vercel/blob": "^2.8.0",
     "bcrypt": "^6.0.0",
     "clsx": "^2.1.1",
     "dotenv": "^17.4.2",

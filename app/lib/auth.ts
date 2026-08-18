@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+
 import {
     SignJWT,
     jwtVerify,
@@ -6,44 +7,53 @@ import {
 } from "jose";
 
 
+
 const secret =
     new TextEncoder().encode(
-        process.env.JWT_SECRET || "machwana-secret"
+        process.env.JWT_SECRET ||
+        "machwana-secret"
     );
 
 
 
 export interface SessionPayload
-extends JWTPayload {
+    extends JWTPayload {
 
     id: string;
 
     email: string;
 
     role:
-    | "ADMIN"
-    | "MANAGING_PARTNER";
+        | "ADMIN"
+        | "MANAGING_PARTNER";
 
 }
 
 
 
+
+
 export async function createSession(
     payload: SessionPayload
-){
+) {
+
 
     const token =
-        await new SignJWT(payload)
+        await new SignJWT(
+            payload
+        )
 
         .setProtectedHeader({
-            alg:"HS256"
+            alg: "HS256"
         })
 
         .setExpirationTime(
             "7d"
         )
 
-        .sign(secret);
+        .sign(
+            secret
+        );
 
 
 
@@ -51,21 +61,23 @@ export async function createSession(
         await cookies();
 
 
+
     cookieStore.set(
         "machwana_session",
         token,
         {
-            httpOnly:true,
+            httpOnly: true,
 
             secure:
-            process.env.NODE_ENV === "production",
+                process.env.NODE_ENV ===
+                "production",
 
-            sameSite:"lax",
+            sameSite: "lax",
 
             maxAge:
-            60 * 60 * 24 * 7,
+                60 * 60 * 24 * 7,
 
-            path:"/"
+            path: "/"
         }
     );
 
@@ -74,23 +86,33 @@ export async function createSession(
 
 
 
+
 export async function verifySession(
-    token:string
-){
+    token: string
+) {
 
-    try{
 
-        const {payload} =
+    try {
+
+
+        const {
+            payload
+        } =
             await jwtVerify(
                 token,
                 secret
             );
 
 
-        return payload as SessionPayload;
+
+        return (
+            payload as SessionPayload
+        );
 
 
-    }catch{
+    }
+    catch {
+
 
         return null;
 
@@ -101,10 +123,13 @@ export async function verifySession(
 
 
 
-export async function getSession(){
+
+export async function getSession() {
+
 
     const cookieStore =
         await cookies();
+
 
 
     const token =
@@ -113,13 +138,35 @@ export async function getSession(){
         )?.value;
 
 
-    if(!token){
+
+    if (!token) {
 
         return null;
 
     }
 
 
-    return verifySession(token);
+
+    return verifySession(
+        token
+    );
+
+}
+
+
+
+
+
+export async function clearSession() {
+
+
+    const cookieStore =
+        await cookies();
+
+
+
+    cookieStore.delete(
+        "machwana_session"
+    );
 
 }

@@ -1,16 +1,32 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
-import { Menu, X } from "lucide-react";
-import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
 
-import { navigation } from "../../data/navigation";
+import Link from "next/link";
+
+import {
+  Menu,
+  X,
+} from "lucide-react";
+
+import {
+  useEffect,
+  useState,
+} from "react";
+
+import {
+  usePathname,
+} from "next/navigation";
+
+import {
+  navigation,
+} from "../../data/navigation";
+
 
 
 const whatsappMessage =
   "Hi Machwana Law Office, I would like to schedule a legal consultation.";
+
 
 
 const whatsappLink =
@@ -20,29 +36,76 @@ const whatsappLink =
 
 
 
-
-
 export default function Navbar() {
 
 
-  const pathname = usePathname();
-
-
-  const [isScrolled,setIsScrolled] =
-    useState(false);
-
-
-  const [isOpen,setIsOpen] =
-    useState(false);
+  const pathname =
+    usePathname();
 
 
 
+  const [
+    isScrolled,
+    setIsScrolled
+  ] =
+  useState(false);
 
 
-  useEffect(()=>{
+
+  const [
+    isOpen,
+    setIsOpen
+  ] =
+  useState(false);
 
 
-    const handleScroll = ()=>{
+
+
+
+  /*
+    PUBLIC NAVIGATION
+
+    Existing navigation is preserved.
+
+    News is added automatically when
+    it is not already present.
+  */
+
+  const hasNews =
+    navigation.some(
+      (item) =>
+        item.href === "/news"
+    );
+
+
+
+  const menuItems =
+    hasNews
+
+      ?
+
+      navigation
+
+      :
+
+      [
+        ...navigation,
+
+        {
+          name: "News",
+
+          href: "/news",
+        },
+      ];
+
+
+
+
+
+  useEffect(() => {
+
+
+    const handleScroll = () => {
 
       setIsScrolled(
         window.scrollY > 50
@@ -51,13 +114,15 @@ export default function Navbar() {
     };
 
 
+
     window.addEventListener(
       "scroll",
       handleScroll
     );
 
 
-    return ()=>{
+
+    return () => {
 
       window.removeEventListener(
         "scroll",
@@ -67,299 +132,365 @@ export default function Navbar() {
     };
 
 
-  },[]);
+  }, []);
 
 
 
 
 
+  /*
+    News stays active on:
 
-return (
+    /news
 
+    /news/[slug]
+  */
 
-<header
+  const isItemActive = (
+    href: string
+  ) => {
 
-className={`
-fixed
-inset-x-0
-top-0
-z-50
-transition-all
-duration-300
+    if (
+      href === "/news"
+    ) {
 
-${
-isScrolled
+      return (
+        pathname === "/news" ||
+        pathname.startsWith(
+          "/news/"
+        )
+      );
 
-?
-"bg-white/95 shadow-lg backdrop-blur-md"
+    }
 
-:
 
-"bg-transparent"
 
-}
+    return (
+      pathname === href
+    );
 
-`}
+  };
 
->
 
 
 
 
-<div
+  return (
 
-className="
-mx-auto
-flex
-h-24
-max-w-7xl
-items-center
-justify-between
-px-6
-lg:px-8
-"
+    <header
 
->
+      className={`
+        fixed
+        inset-x-0
+        top-0
+        z-50
+        transition-all
+        duration-300
 
+        ${
+          isScrolled
 
+            ?
 
+            "bg-white/95 shadow-lg backdrop-blur-md"
 
+            :
 
+            "bg-transparent"
+        }
+      `}
 
+    >
 
-{/* LOGO */}
 
 
-<Link href="/">
+      <div
 
+        className="
+          mx-auto
+          flex
+          h-24
+          max-w-7xl
+          items-center
+          justify-between
+          px-6
+          lg:px-8
+        "
 
-<Image
+      >
 
-src="/logo.png"
 
-alt="Machwana Law Office"
 
-width={190}
+        {/* LOGO */}
 
-height={60}
+        <Link href="/">
 
-priority
+          <Image
 
-className="
-w-[155px]
-lg:w-[185px]
-"
+            src="/logo.png"
 
-/>
+            alt="Machwana Law Office"
 
+            width={190}
 
-</Link>
+            height={60}
 
+            priority
 
+            className="
+              w-[155px]
+              lg:w-[185px]
+              h-auto
+            "
 
+          />
 
+        </Link>
 
 
 
 
 
-{/* DESKTOP MENU */}
 
 
+        {/* DESKTOP MENU */}
 
-<nav
+        <nav
 
-className="
-hidden
-items-center
-gap-10
-lg:flex
-"
+          className="
+            hidden
+            items-center
+            gap-10
+            lg:flex
+          "
 
->
+        >
 
 
-{
-navigation.map((item)=>{
+          {
+            menuItems.map(
+              (item) => {
 
 
-const active =
-pathname === item.href;
+                const active =
+                  isItemActive(
+                    item.href
+                  );
 
 
+                return (
 
-return (
+                  <Link
 
+                    key={
+                      item.name
+                    }
 
-<Link
+                    href={
+                      item.href
+                    }
 
-key={item.name}
 
-href={item.href}
+                    className={`
 
+                      group
 
-className={`
+                      relative
 
-group
+                      text-sm
 
-relative
+                      font-semibold
 
-text-sm
+                      uppercase
 
-font-semibold
+                      tracking-[0.18em]
 
-uppercase
+                      transition
 
-tracking-[0.18em]
 
-transition
+                      ${
+                        active
 
+                          ?
 
-${
-active
+                          "text-orange-500"
 
-?
+                          :
 
-"text-orange-500"
+                          isScrolled
 
-:
+                            ?
 
-isScrolled
+                            "text-slate-900 hover:text-orange-500"
 
-?
+                            :
 
-"text-slate-900 hover:text-orange-500"
+                            "text-white hover:text-orange-300"
+                      }
 
-:
+                    `}
 
-"text-white hover:text-orange-300"
+                  >
 
-}
 
-`}
+                    {
+                      item.name
+                    }
 
 
->
 
+                    <span
 
-{item.name}
+                      className={`
 
+                        absolute
 
+                        left-0
 
-<span
+                        -bottom-2
 
-className={`
+                        h-0.5
 
-absolute
+                        bg-orange-500
 
-left-0
+                        transition-all
 
--bottom-2
+                        duration-300
 
-h-0.5
 
-bg-orange-500
+                        ${
+                          active
 
-transition-all
+                            ?
 
-duration-300
+                            "w-full"
 
+                            :
 
-${
-active
-?
-"w-full"
-:
-"w-0 group-hover:w-full"
-}
+                            "w-0 group-hover:w-full"
+                        }
 
-`}
+                      `}
 
-/>
+                    />
 
 
 
-</Link>
+                  </Link>
 
+                );
 
-)
+              }
+            )
+          }
 
 
-})
+        </nav>
 
 
-}
 
 
-</nav>
 
 
 
+        {/* CTA */}
 
+        <a
 
+          href={
+            whatsappLink
+          }
 
+          target="_blank"
 
+          rel="noopener noreferrer"
 
 
-{/* CTA */}
+          className="
+            hidden
+            rounded-full
+            bg-orange-500
+            px-7
+            py-3
+            text-sm
+            font-semibold
+            text-white
+            transition
+            hover:bg-orange-600
+            lg:inline-flex
+          "
 
+        >
 
+          Consultation
 
-<a
+        </a>
 
 
-href={whatsappLink}
 
-target="_blank"
 
-rel="noopener noreferrer"
 
 
-className={`
 
-hidden
+        {/* MOBILE BUTTON */}
 
-rounded-full
+        <button
 
-px-7
+          onClick={() =>
+            setIsOpen(
+              !isOpen
+            )
+          }
 
-py-3
+          className={`
 
-text-sm
+            lg:hidden
 
-font-semibold
 
-transition
+            ${
+              isScrolled
 
-lg:inline-flex
+                ?
 
+                "text-slate-900"
 
+                :
 
-${
-isScrolled
+                "text-white"
+            }
 
-?
+          `}
 
-"bg-orange-500 text-white hover:bg-orange-600"
+          aria-label="Menu"
 
-:
+          aria-expanded={
+            isOpen
+          }
 
-"bg-orange-500 text-white hover:bg-orange-600"
+        >
 
-}
+          {
 
-`}
+            isOpen
 
->
+              ?
 
+              <X
+                size={32}
+              />
 
-Consultation
+              :
 
+              <Menu
+                size={32}
+              />
 
-</a>
+          }
 
+        </button>
 
 
+      </div>
 
 
 
@@ -367,227 +498,154 @@ Consultation
 
 
 
-{/* MOBILE BUTTON */}
+      {/* MOBILE MENU */}
 
+      {
 
+        isOpen && (
 
-<button
+          <div
 
+            className="
+              border-t
+              border-slate-200
+              bg-white
+              lg:hidden
+            "
 
-onClick={()=>setIsOpen(!isOpen)}
+          >
 
 
-className={`
+            <nav
 
-lg:hidden
+              className="
+                flex
+                flex-col
+                px-6
+                py-6
+              "
 
+            >
 
-${
-isScrolled
 
-?
+              {
+                menuItems.map(
+                  (item) => {
 
-"text-slate-900"
 
-:
+                    const active =
+                      isItemActive(
+                        item.href
+                      );
 
-"text-white"
 
-}
+                    return (
 
-`}
+                      <Link
 
+                        key={
+                          item.name
+                        }
 
-aria-label="Menu"
+                        href={
+                          item.href
+                        }
 
+                        onClick={() =>
+                          setIsOpen(
+                            false
+                          )
+                        }
 
 
->
+                        className={`
 
+                          rounded-xl
 
-{
+                          px-4
 
-isOpen
+                          py-4
 
-?
+                          text-sm
 
-<X size={32}/>
+                          font-semibold
 
-:
+                          uppercase
 
-<Menu size={32}/>
+                          tracking-wide
 
-}
 
+                          ${
+                            active
 
-</button>
+                              ?
 
+                              "bg-orange-50 text-orange-600"
 
+                              :
 
+                              "text-slate-800 hover:bg-slate-100"
+                          }
 
+                        `}
 
-</div>
+                      >
 
+                        {
+                          item.name
+                        }
 
+                      </Link>
 
+                    );
 
+                  }
+                )
+              }
 
 
 
 
+              <a
 
-{/* MOBILE MENU */}
+                href={
+                  whatsappLink
+                }
 
+                target="_blank"
 
+                rel="noopener noreferrer"
 
-{
 
-isOpen && (
+                className="
+                  mt-5
+                  rounded-full
+                  bg-orange-500
+                  py-4
+                  text-center
+                  font-semibold
+                  text-white
+                "
 
+              >
 
-<div
+                Consultation
 
-className="
-border-t
-border-slate-200
-bg-white
-lg:hidden
-"
+              </a>
 
->
 
+            </nav>
 
-<nav
 
-className="
-flex
-flex-col
-px-6
-py-6
-"
+          </div>
 
->
+        )
 
+      }
 
-{
-navigation.map((item)=>{
 
+    </header>
 
-const active =
-pathname === item.href;
-
-
-
-return (
-
-
-<Link
-
-key={item.name}
-
-href={item.href}
-
-onClick={()=>setIsOpen(false)}
-
-
-className={`
-
-rounded-xl
-
-px-4
-
-py-4
-
-text-sm
-
-font-semibold
-
-uppercase
-
-tracking-wide
-
-
-${
-active
-
-?
-
-"bg-orange-50 text-orange-600"
-
-:
-
-"text-slate-800 hover:bg-slate-100"
-
-}
-
-`}
-
-
->
-
-
-{item.name}
-
-
-</Link>
-
-
-)
-
-
-})
-
-
-}
-
-
-
-
-<a
-
-href={whatsappLink}
-
-target="_blank"
-
-rel="noopener noreferrer"
-
-
-className="
-mt-5
-rounded-full
-bg-orange-500
-py-4
-text-center
-font-semibold
-text-white
-"
-
-
->
-
-Consultation
-
-
-</a>
-
-
-
-</nav>
-
-
-</div>
-
-
-)
-
-}
-
-
-
-</header>
-
-
-);
-
+  );
 
 }
