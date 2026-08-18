@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-
 import Link from "next/link";
 
 import {
@@ -65,38 +64,38 @@ export default function Navbar() {
   /*
     PUBLIC NAVIGATION
 
-    Existing navigation is preserved.
+    Final order:
 
-    News is added automatically when
-    it is not already present.
+    Home
+    Our Firm
+    Services
+    Professionals
+    Clients
+    News
+    Contact
+
+    News and Contact are removed
+    from their original positions and
+    reinserted in the desired order.
   */
 
-  const hasNews =
-    navigation.some(
+  const menuItems = [
+    ...navigation.filter(
       (item) =>
-        item.href === "/news"
-    );
+        item.href !== "/news" &&
+        item.href !== "/contact"
+    ),
 
+    {
+      name: "News",
+      href: "/news",
+    },
 
-
-  const menuItems =
-    hasNews
-
-      ?
-
-      navigation
-
-      :
-
-      [
-        ...navigation,
-
-        {
-          name: "News",
-
-          href: "/news",
-        },
-      ];
+    {
+      name: "Contact",
+      href: "/contact",
+    },
+  ];
 
 
 
