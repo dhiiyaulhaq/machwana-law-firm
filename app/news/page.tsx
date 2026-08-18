@@ -8,6 +8,7 @@ import Navbar from "@/app/components/layout/Navbar";
 
 import Footer from "@/app/components/home/Footer";
 
+export const dynamic = "force-dynamic";
 
 
 export default async function NewsPage() {
